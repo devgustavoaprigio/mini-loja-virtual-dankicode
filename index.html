@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loja virtual</title>
+    <meta charset="utf-8">
+    <style>
+        #produtos,
+        #carrinho {
+            max-width: 990px;
+            margin: 0 auto;
+            padding: 0 2%;
+            display: flex;
+            
+        }
+        #carrinho {
+            max-width: 990px;
+            margin: 0 auto;
+            padding: 0 2%;
+            display: block;
+            
+        }
+        
+        img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .produto-single {
+            width: 33.3%;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Vitrine</h2>
+    <div id="produtos"></div>
+
+    <h2>Carrinho</h2>
+    <div id="carrinho"></div>
+
+    <script>
+        const itens = [ // <- nome alterado aqui
+            {
+                id: 0,
+                nome: "camiseta",
+                img: "image.png",
+                quantidade: 0
+            },
+            {
+                id: 1,
+                nome: "short",
+                img: "image.png",
+                quantidade: 0
+            },
+            {
+                id: 2,
+                nome: "sapato",
+                img: "image.png",
+                quantidade: 0
+            }
+        ];
+
+        const atualizarCarrinho = () => {
+            const containerCarrinho = document.getElementById("carrinho");
+            containerCarrinho.innerHTML = "";
+
+            itens.map((val) => {
+                if (val.quantidade > 0) {
+                    containerCarrinho.innerHTML += `
+                        <p>${val.nome} | quantidade: ${val.quantidade}</p>
+                        <hr>
+                    `;
+                }
+            });
+        };
+
+        const inicializarLoja = () => {
+            const containerProdutos = document.getElementById("produtos");
+
+            itens.map((val) => {
+                containerProdutos.innerHTML += `
+                    <div class="produto-single">
+                        <img src="${val.img}" />
+                        <p>${val.nome}</p>
+                        <a key="${val.id}" href="#">Adicionar ao carrinho!</a>
+                    </div>
+                `;
+            });
+
+            const links = document.getElementsByTagName("a");
+            for (let i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", function (e) {
+                    e.preventDefault();
+                    let key = this.getAttribute("key");
+                    itens[key].quantidade++; // <- uso da nova variável
+                    atualizarCarrinho();
+                });
+            }
+        };
+
+        inicializarLoja();
+        atualizarCarrinho();
+    </script>
+</body>
+</html>
